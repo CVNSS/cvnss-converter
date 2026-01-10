@@ -64,6 +64,8 @@ process.stdout.write(JSON.stringify(out));
         [node, "-e", js, "--", conv_path, mode],
         input=text,
         text=True,
+        encoding="utf-8",
+        errors="strict",
         capture_output=True,
     )
 
