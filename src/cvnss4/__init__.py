@@ -14,13 +14,15 @@ def _require_node() -> str:
     if not node:
         raise RuntimeError(
             "Node.js is required to use cvnss4 from Python.\n"
-            "Please install Node.js (LTS) and ensure `node` is on PATH."
+            "Please install Node.js (LTS) and ensure `node` is in PATH, then retry."
         )
     return node
 
 
 def _converter_js_path() -> str:
-    # converter.js is bundled as package-data (see pyproject.toml)
+    """
+    Return absolute path to converter.js shipped inside the Python package.
+    """
     p = resources.files("cvnss4").joinpath("converter.js")
     return str(p)
 
@@ -29,24 +31,44 @@ def convert(text: str, mode: Mode = "cqn") -> Dict[str, str]:
     """
     Convert text using the bundled JS converter (via Node.js).
 
-    mode:
-      - 'cqn'  : input is CQN -> outputs {cqn, cvn, cvss}
-      - 'cvn'  : input is CVN -> outputs {cqn, cvn, cvss}
-      - 'cvss' : input is CVSS -> outputs {cqn, cvn, cvss}
+    Parameters
+    ----------
+    text : str
+        Input text.
+    mode : {"cqn","cvn","cvss"}
+        - "cqn"  : input is CQN  -> outputs {"cqn","cvn","cvss"}
+        - "cvn"  : input is CVN  -> outputs {"cqn","cvn","cvss"}
+        - "cvss" : input is CVSS -> outputs {"cqn","cvn","cvss"}
+
+    Returns
+    -------
+    dict
+        {"cqn": str, "cvn": str, "cvss": str}
     """
+    if not isinstance(text, str):
+        raise TypeError("text must be a string")
     if mode not in ("cqn", "cvn", "cvss"):
         raise ValueError("mode must be one of: 'cqn', 'cvn', 'cvss'")
 
     node = _require_node()
     conv_path = _converter_js_path()
 
-    # Read input from stdin to avoid command-length limits
+    # Node script:
+    # - Read input from stdin (UTF-8)
+    # - Take last 2 argv items: [converter_path, mode]
+    #   (robust against any argv index shifts)
     js = r"""
 const fs = require("fs");
 const path = require("path");
 
-const convPath = process.argv[2];
-const mode = process.argv[3] || "cqn";
+const argv = process.argv;
+const mode = argv.length >= 2 ? argv[argv.length - 1] : "cqn";
+const convPath = argv.length >= 3 ? argv[argv.length - 2] : null;
+
+if (!convPath) {
+  console.error("Missing converter.js path argument.");
+  process.exit(2);
+}
 
 const input = fs.readFileSync(0, "utf8");
 const conv = require(path.resolve(convPath));
@@ -61,10 +83,10 @@ process.stdout.write(JSON.stringify(out));
 """.strip()
 
     p = subprocess.run(
-        [node, "-e", js, "--", conv_path, mode],
+        [node, "-e", js, conv_path, mode],
         input=text,
         text=True,
-        encoding="utf-8",
+        encoding="utf-8",   # IMPORTANT: avoid Windows cp1252 issues
         errors="strict",
         capture_output=True,
     )
@@ -72,7 +94,29 @@ process.stdout.write(JSON.stringify(out));
     if p.returncode != 0:
         raise RuntimeError((p.stderr or "").strip() or f"Node failed with code {p.returncode}")
 
-    return json.loads(p.stdout)
+    try:
+        data = json.loads(p.stdout)
+    except Exception as e:
+        raise RuntimeError(f"Failed to parse JS output as JSON: {p.stdout!r}") from e
+
+    # Ensure stable keys exist
+    return {
+        "cqn": data.get("cqn", ""),
+        "cvn": data.get("cvn", ""),
+        "cvss": data.get("cvss", ""),
+    }
 
 
-__all__ = ["convert"]
+def convert_cqn(text: str) -> Dict[str, str]:
+    return convert(text, mode="cqn")
+
+
+def convert_cvn(text: str) -> Dict[str, str]:
+    return convert(text, mode="cvn")
+
+
+def convert_cvss(text: str) -> Dict[str, str]:
+    return convert(text, mode="cvss")
+
+
+__all__ = ["convert", "convert_cqn", "convert_cvn", "convert_cvss"]
