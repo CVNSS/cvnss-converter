@@ -4,8 +4,8 @@
 ![JavaScript](https://img.shields.io/badge/JavaScript-Node.js-informational)
 ![Python](https://img.shields.io/badge/Python-package-informational)
 
-> **VI:** Bộ chuyển đổi theo CVNSS 4.0 (CQN → CVN → CVNSS), có cơ chế “P-guard” để tránh nhập nhằng.  
-> **EN:** CVNSS 4.0 conversion toolkit (Quốc Ngữ → CVN → CVNSS), featuring a “P-guard” mechanism to reduce ambiguity.
+> **VI:** Bộ chuyển đổi theo CVNSS 4.0 (**CQN → CVN → CVNSS**), có cơ chế **“P-guard”** để tránh nhập nhằng.  
+> **EN:** CVNSS 4.0 conversion toolkit (**Quốc Ngữ → CVN → CVNSS**), featuring a **“P-guard”** mechanism to reduce ambiguity.
 
 ---
 
@@ -27,19 +27,21 @@
 
 ## Giới thiệu | Overview
 
-**VI**  
+### VI
+
 **CVNSS 4.0 Converter** là mô-đun chuyển đổi dựa trên **công thức CVNSS 4.0** do **Trần Tư Bình** soạn thảo. Thư viện hỗ trợ **JavaScript (Node.js)** và **Python** để chuyển đổi văn bản theo hướng:
 
 - **CQN (Chữ Quốc Ngữ) → CVN → CVNSS**
 
-Ngoài ra có cơ chế **“P-guard”** (ký tự/đánh dấu bảo vệ) nhằm giảm nhầm lẫn khi nhập liệu hoặc khi văn bản nguồn có các chuỗi dễ gây mơ hồ trong quá trình chuyển đổi.
+Ngoài ra, module có cơ chế **“P-guard”** (ký tự/đánh dấu bảo vệ) nhằm giảm nhầm lẫn khi nhập liệu hoặc khi văn bản nguồn chứa các chuỗi dễ gây mơ hồ trong quá trình chuyển đổi.
 
-**EN**  
-**CVNSS 4.0 Converter** is a conversion module based on the **CVNSS 4.0 formula**, authored by **Trần Tư Bình**. It provides **JavaScript (Node.js)** and **Python** implementations to convert text:
+### EN
+
+**CVNSS 4.0 Converter** is a conversion module based on the **CVNSS 4.0 formula**, authored by **Trần Tư Bình**. It provides **JavaScript (Node.js)** and **Python** implementations to convert text in the following direction:
 
 - **CQN (Vietnamese Quốc Ngữ) → CVN → CVNSS**
 
-It also includes a **“P-guard”** mechanism to prevent unintended conversions and reduce ambiguity.
+It also includes a **“P-guard”** mechanism to prevent unintended conversions and reduce ambiguity when the input contains potentially confusing patterns.
 
 ---
 
@@ -58,11 +60,12 @@ It also includes a **“P-guard”** mechanism to prevent unintended conversions
 
 ## Cài đặt | Installation
 
-> Repo này hiện hướng tới dùng như **thư viện** (JS/Python) và/hoặc nhúng vào dự án của bạn. Bạn có thể cài từ GitHub.
+> Repo này hiện hướng tới dùng như **thư viện** (JS/Python) và/hoặc nhúng vào dự án của bạn. Bạn có thể cài trực tiếp từ GitHub.
 
 ### Cài từ GitHub (khuyên dùng khi đang dev)
 
-**JavaScript (Node.js)**
+#### JavaScript (Node.js)
+
 ```bash
 npm install github:CVNSS/cvnss-converter
 # hoặc
