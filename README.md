@@ -14,11 +14,16 @@
 - [Giới thiệu | Overview](#giới-thiệu--overview)
 - [Tính năng | Features](#tính-năng--features)
 - [Cài đặt | Installation](#cài-đặt--installation)
+  - [Cài từ GitHub](#cài-từ-github)
+  - [Cài từ npm / PyPI](#cài-từ-npm--pypi)
 - [Sử dụng | Usage](#sử-dụng--usage)
   - [JavaScript / Node.js](#javascript--nodejs)
   - [Python](#python)
 - [Cấu hình & Mapping](#cấu-hình--mapping)
+- [P-guard (chống nhập nhằng)](#p-guard-chống-nhập-nhằng)
 - [Phát triển | Development](#phát-triển--development)
+  - [Yêu cầu | Requirements](#yêu-cầu--requirements)
+  - [Clone & Setup](#clone--setup)
 - [Đóng góp | Contributing](#đóng-góp--contributing)
 - [Giấy phép | License](#giấy-phép--license)
 - [Ghi công | Acknowledgements](#ghi-công--acknowledgements)
@@ -60,9 +65,9 @@ It also includes a **“P-guard”** mechanism to prevent unintended conversions
 
 ## Cài đặt | Installation
 
-> Repo này hiện hướng tới dùng như **thư viện** (JS/Python) và/hoặc nhúng vào dự án của bạn. Bạn có thể cài trực tiếp từ GitHub.
+> Repo này hướng tới dùng như **thư viện** (JS/Python) và/hoặc nhúng vào dự án của bạn.
 
-### Cài từ GitHub (khuyên dùng khi đang dev)
+### Cài từ GitHub
 
 #### JavaScript (Node.js)
 
@@ -72,3 +77,165 @@ npm install github:CVNSS/cvnss-converter
 pnpm add github:CVNSS/cvnss-converter
 # hoặc
 yarn add github:CVNSS/cvnss-converter
+```
+
+#### Python
+
+```bash
+pip install git+https://github.com/CVNSS/cvnss-converter.git
+```
+
+### Cài từ npm / PyPI
+
+Khi bạn publish lên npm/PyPI, chỉ cần thay `<package>` bằng tên gói thật:
+
+#### JavaScript (Node.js)
+
+```bash
+npm install <package>
+# hoặc
+pnpm add <package>
+# hoặc
+yarn add <package>
+```
+
+#### Python
+
+```bash
+pip install <package>
+```
+
+---
+
+## Sử dụng | Usage
+
+> **Gợi ý API:** để các ví dụ dưới đây dùng được ngay, bạn nên export (hoặc alias) các hàm:
+>
+> - **JS:** `convertCqnToCvnss(text, options?)`
+> - **Python:** `convert_cqn_to_cvnss(text, options=None)`
+
+### JavaScript / Node.js
+
+#### ESM
+
+```js
+import { convertCqnToCvnss } from "./src/cvnss4/converter.js"; // dùng trực tiếp từ source
+
+const input = "Xin chào Việt Nam";
+const output = convertCqnToCvnss(input);
+
+console.log(output);
+```
+
+#### CommonJS
+
+```js
+const { convertCqnToCvnss } = require("./src/cvnss4/converter.js");
+
+const input = "Xin chào Việt Nam";
+const output = convertCqnToCvnss(input);
+
+console.log(output);
+```
+
+### Python
+
+```python
+from cvnss4 import convert_cqn_to_cvnss
+
+text = "Xin chào Việt Nam"
+out = convert_cqn_to_cvnss(text)
+
+print(out)
+```
+
+---
+
+## Cấu hình & Mapping
+
+### VI
+
+Mapping/spec được tách rời để dễ cập nhật và kiểm thử. Thông thường nằm tại:
+
+- `src/cvnss4/mapping.json`
+- `spec/` (tài liệu đặc tả, bảng ánh xạ, ghi chú phiên bản)
+
+Bạn có thể **phiên bản hoá mapping** để đảm bảo tương thích ngược (backward compatibility) khi phát hành.
+
+### EN
+
+The mapping/spec is separated from the core logic for easier versioning and testing. Typical locations:
+
+- `src/cvnss4/mapping.json`
+- `spec/` (spec docs, mapping tables, version notes)
+
+You can **version the mapping** to preserve backward compatibility across releases.
+
+---
+
+## P-guard (chống nhập nhằng)
+
+- **VI:** “P-guard” là cơ chế đánh dấu/escape giúp giảm mơ hồ và hạn chế chuyển đổi sai khi chuỗi nguồn có pattern dễ gây nhầm.
+- **EN:** “P-guard” is an escape/guard mechanism to reduce ambiguity and avoid unintended conversions.
+
+---
+
+## Phát triển | Development
+
+### Yêu cầu | Requirements
+
+- Node.js (khuyến nghị bản LTS)
+- Python 3.9+ (khuyến nghị 3.10+)
+
+### Clone & Setup
+
+```bash
+git clone https://github.com/CVNSS/cvnss-converter.git
+cd cvnss-converter
+```
+
+#### Python (editable)
+
+```bash
+pip install -e .
+```
+
+#### Node
+
+```bash
+npm install
+```
+
+> Gợi ý: thêm test (`pytest`/`jest`) để “khóa” hành vi chuyển đổi theo từng phiên bản mapping.
+
+---
+
+## Đóng góp | Contributing
+
+### VI
+
+1. Fork repo  
+2. Tạo branch: `feat/...` hoặc `fix/...`  
+3. Commit rõ ràng (ngắn gọn nhưng đủ ý)  
+4. Mở Pull Request (PR), kèm ví dụ input/output (đặc biệt khi đổi mapping)
+
+### EN
+
+1. Fork the repository  
+2. Create a `feat/...` or `fix/...` branch  
+3. Commit with clear messages  
+4. Open a PR with reproducible input/output examples (especially for mapping changes)
+
+---
+
+## Giấy phép | License
+
+Phát hành theo giấy phép MIT. Xem [LICENSE](LICENSE).  
+Released under the MIT License. See [LICENSE](LICENSE).
+
+---
+
+## Ghi công | Acknowledgements
+
+- **Trần Tư Bình** — tác giả công thức/đặc tả CVNSS 4.0  
+- **CVNSS Contributors** — đóng góp mã nguồn, mapping, kiểm thử
