@@ -247,7 +247,7 @@ const CVNSSConverter = (function () {
       cvssOutput = cvssOutput.toUpperCase();
     }
 
-    return { cqn: cqnResult, cvn: cvnOutput, cvss: cvssOutput };
+    return { cqn: word, cvn: cvnOutput, cvss: cvssOutput };
   }
 
   // Hàm chuyển từ CVN sang CQN và CVSS
