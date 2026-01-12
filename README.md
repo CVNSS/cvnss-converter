@@ -34,7 +34,7 @@
 
 ### VI
 
-**CVNSS 4.0 Converter** là mô-đun chuyển đổi dựa trên **công thức CVNSS 4.0** do **Trần Tư Bình** soạn thảo. Thư viện hỗ trợ **JavaScript (Node.js)** và **Python** để chuyển đổi văn bản theo hướng:
+**CVNSS 4.0 Converter** là mô-đun chuyển đổi dựa trên **công thức CVNSS 4.0** do **Trần Tư Bình**, **Kiều Trường Lâm**  phát kiến và đề xuất. Thư viện hỗ trợ **JavaScript (Node.js)** và **Python** để chuyển đổi văn bản theo hướng:
 
 - **CQN (Chữ Quốc Ngữ) → CVN → CVNSS**
 
@@ -42,7 +42,7 @@ Ngoài ra, module có cơ chế **“P-guard”** (ký tự/đánh dấu bảo v
 
 ### EN
 
-**CVNSS 4.0 Converter** is a conversion module based on the **CVNSS 4.0 formula**, authored by **Trần Tư Bình**. It provides **JavaScript (Node.js)** and **Python** implementations to convert text in the following direction:
+**CVNSS 4.0 Converter** is a conversion module based on the **CVNSS 4.0 formula**, authored by **Trần Tư Bình**, **Kiều Trường Lâm**. It provides **JavaScript (Node.js)** and **Python** implementations to convert text in the following direction:
 
 - **CQN (Vietnamese Quốc Ngữ) → CVN → CVNSS**
 
@@ -237,5 +237,6 @@ Released under the MIT License. See [LICENSE](LICENSE).
 
 ## Ghi công | Acknowledgements
 
-- **Trần Tư Bình** — tác giả công thức/đặc tả CVNSS 4.0  
-- **CVNSS Contributors** — đóng góp mã nguồn, mapping, kiểm thử
+- **Trần Tư Bình**, **Kiều Trường Lâm** — tác giả công thức/đặc tả CVNSS 4.0
+- **Giấy tác quyền**số 1850/2020/QTG từ Cục Bản quyền tác giả thuộc Bộ Văn hóa, Thể thao và Du lịch cấp.
+- **CVNSS Contributors** — đóng góp mã nguồn, mapping, kiểm thử, do **Long Ngo** - Trưởng team phát triển dự án phụ trách.
